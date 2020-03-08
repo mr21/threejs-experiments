@@ -28,8 +28,7 @@ scene.add( axes );
 
 // .............................................................................
 const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, .1, 10000 );
-camera.up = new THREE.Vector3( 0, 0, 1 );
-camera.position.set( 10, 10, 50 );
+camera.position.set( 10, 5, 10 );
 scene.add( camera );
 
 // .............................................................................
@@ -42,10 +41,10 @@ spot.penumbra = .1;
 spot.castShadow = true;
 spot.shadow.camera.near = 8;
 spot.shadow.camera.far = 200;
-spot.shadow.mapSize.width = 1024;
+spot.shadow.mapSize.width =
 spot.shadow.mapSize.height = 1024;
 spot.shadow.radius = 4;
-spot.position.set( 40, 20, 15 );
+spot.position.set( 40, 50, 20 );
 scene.add( spot );
 const spotShadowHelper = new THREE.CameraHelper( spot.shadow.camera );
 scene.add( spotShadowHelper );
@@ -63,7 +62,7 @@ const sphere = new THREE.Mesh(
 	new THREE.SphereGeometry( 2.5, 32, 32 ),
 	new THREE.MeshStandardMaterial( { color: 0x1e90ff, side: THREE.FrontSide } )
 );
-sphere.position.set( 13, 0, 2.5 );
+sphere.position.set( 13, 2.5, 0 );
 sphere.castShadow = true;
 sphere.receiveShadow = true;
 scene.add( sphere );
@@ -73,7 +72,7 @@ const meshCube = new THREE.Mesh(
 	new THREE.BoxGeometry( 5, 5, 5 ),
 	new THREE.MeshStandardMaterial( { color: 0x1e90ff, side: THREE.FrontSide } )
 );
-meshCube.position.set( -1, 0, 2.5 );
+meshCube.position.set( -6, 2.5, 0 );
 meshCube.castShadow = true;
 meshCube.receiveShadow = true;
 scene.add( meshCube );
@@ -82,16 +81,17 @@ const meshCube2 = new THREE.Mesh(
 	new THREE.BoxGeometry( 5, 5, 5 ),
 	new THREE.MeshStandardMaterial( { color: 0x1e90ff, side: THREE.FrontSide } )
 );
-meshCube2.position.set( 6, 0, 2.5 );
+meshCube2.position.set( 8, 2.5, 0 );
 meshCube2.castShadow = true;
 meshCube2.receiveShadow = true;
 scene.add( meshCube2 );
 
 // .............................................................................
 const meshPlane = new THREE.Mesh(
-	new THREE.PlaneBufferGeometry( 100, 100, 2, 2 ),
+	new THREE.PlaneBufferGeometry( 100, 100, 2 ),
 	new THREE.MeshStandardMaterial( { color: 0xffffff, side: THREE.DoubleSide } )
 );
+meshPlane.rotation.x = THREE.Math.degToRad( 90 );
 meshPlane.receiveShadow = true;
 scene.add( meshPlane );
 
