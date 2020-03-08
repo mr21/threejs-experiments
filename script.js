@@ -7,11 +7,6 @@ window.onresize = () => {
 	camera.updateProjectionMatrix();
 };
 
-function animate() {
-	renderer.render( scene, camera );
-	requestAnimationFrame( animate );
-}
-
 // .............................................................................
 const renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.shadowMap.enabled = true;
@@ -25,6 +20,33 @@ const scene = new THREE.Scene();
 // .............................................................................
 const axes = new THREE.AxesHelper( 50 );
 scene.add( axes );
+
+// .............................................................................
+const loader = new THREE.GLTFLoader();
+// const loader = new THREE.FBXLoader();
+const dracoLoader = new THREE.DRACOLoader();
+
+// dracoLoader.setDecoderPath( "three/libs/draco/" );
+
+// loader.setDRACOLoader( dracoLoader );
+loader.load( "models/BeachBabe.gltf",
+	gltf => {
+		const obj = gltf.scene;
+
+		console.log( obj )
+		obj.rotation.y = THREE.Math.degToRad( 90 );
+		obj.position.set( 0, 0, 5 );
+		obj.traverse( node => {
+			if ( node.isMesh ) {
+				node.castShadow = true;
+				node.receiveShadow = true;
+			}
+		} );
+		scene.add( obj );
+	},
+	xhr => { console.log( `${ xhr.loaded / xhr.total * 100 }% loaded` ); },
+	error => { console.log( "An error happened", error ); }
+);
 
 // .............................................................................
 const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, .1, 10000 );
@@ -104,4 +126,19 @@ const controls = new THREE.OrbitControls( camera, renderer.domElement );
 controls.update();
 
 // .............................................................................
+
+let x = 6;
+let lightPos = 0;
+
+function animate() {
+	// x += .01;
+	// meshCube2.position.set( x, 2.5, 0 );
+	renderer.render( scene, camera );
+	spot.position.set(
+		Math.sin( lightPos ) * 50, 20,
+		Math.cos( lightPos ) * 50 );
+	lightPos += .025;
+	requestAnimationFrame( animate );
+}
+
 animate();
